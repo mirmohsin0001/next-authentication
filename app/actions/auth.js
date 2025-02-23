@@ -2,12 +2,13 @@
 
 import { SignupFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
+import bcrypt from 'bcrypt'
 
-export async function signup(previousState, formData) {
+export async function signup(state, formData) {
 
     await new Promise((resolve) => setTimeout(resolve, 3000))
 
-    // Validate form fields
+    // 1. Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
         name: formData.get('name'),
         email: formData.get('email'),
@@ -22,6 +23,16 @@ export async function signup(previousState, formData) {
             errors: validatedFields.error.flatten().fieldErrors,
         }
     }
+
+    // 2. Prepare data for insertion into database
+    const { name, email, password } = validatedFields.data
+    // Hash the user's password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    console.log('hashedPassword', hashedPassword)
+    console.log('name', name)
+    console.log('email', email)
+
 
 
 
