@@ -3,8 +3,10 @@
 import { SignupFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
 
-export async function signup(formData) {
-    
+export async function signup(previousState, formData) {
+
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+
     // Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
         name: formData.get('name'),
@@ -22,7 +24,6 @@ export async function signup(formData) {
     }
 
 
-    console.log(validatedFields)
 
     // If the form is valid, redirect to the confirmation page
     redirect('/confirmation')
