@@ -22,7 +22,9 @@ const page = () => {
                             placeholder="Enter Email"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm"
                         />
+                        {state?.errors?.email && <p className="text-red-500 text-xs mt-1">{state.errors.email}</p>}
                     </div>
+
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
                         <input
@@ -32,7 +34,10 @@ const page = () => {
                             placeholder="Enter Password"
                             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm"
                         />
+                        {state?.errors?.password && <p className="text-red-500 text-xs mt-1">{state.errors.password}</p>}
                     </div>
+
+
                     <button
                         disabled={pending}
                         type="submit"

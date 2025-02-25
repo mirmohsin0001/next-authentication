@@ -16,30 +16,31 @@ export default function Home() {
         <form action={action} className='space-y-4'>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-            <input id="name" name="name" placeholder="Enter Name" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm" />
+            <input id="name" name="name" placeholder="Enter Full Name" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm" />
+            {state?.errors?.name && <p className="text-red-500 text-xs mt-1">{state.errors.name}</p>}
           </div>
-          {state?.errors?.name && <p className="text-red-500 text-sm">{state.errors.name}</p>}
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input id="email" name="email" type="email" placeholder="Enter Email" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm" />
+            {state?.errors?.email && <p className="text-red-500 text-xs mt-1">{state.errors.email}</p>}
           </div>
-          {state?.errors?.email && <p className="text-red-500 text-sm">{state.errors.email}</p>}
+
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input id="password" name="password" type="password" placeholder="Enter Password" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#174e4f] focus:border-[#174e4f] sm:text-sm" />
+            {state?.errors?.password && (
+              <div className="text-red-500 text-xs mt-1">
+                <p>Password must:</p>
+                <ul>
+                  {state.errors.password.map((error) => (
+                    <li key={error}>- {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
-          {/* DISPLAY ERRORS IN PASSWORD */}
-          {state?.errors?.password && (
-            <div>
-              <p>Password must:</p>
-              <ul>
-                {state.errors.password.map((error) => (
-                  <li key={error}>- {error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           <button disabled={pending} type="submit" className="w-full bg-[#174e4f] text-white py-2 px-4 rounded-md hover:bg-[#123d3e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174e4f]">
             {pending ? 'Submitting...' : 'Sign Up'}
