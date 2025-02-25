@@ -5,6 +5,7 @@ import { LoginFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'
 import User from '../models/user';
+import { createSession, deleteSession } from '@/app/lib/sessions';
 
 export async function signup(state, formData) {
 
@@ -44,6 +45,12 @@ export async function signup(state, formData) {
     redirect('/confirmation')
 
     // Call the provider or db to create a user...
+}
+
+
+export async function logout(){
+    deleteSession()
+    redirect('/logIn')
 }
 
 
@@ -102,10 +109,9 @@ export async function login(state, formData) {
         console.log('Password Matched')
     }
 
+
     // 4. Set the user's session
-    // state.session.set('user', user)
-
-
+    await createSession(user.id)
 
 
     // Redirect to the dashboard
@@ -113,3 +119,4 @@ export async function login(state, formData) {
 
 
 }
+
