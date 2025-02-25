@@ -3,10 +3,10 @@
 import { SignupFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'
+import User from '../models/user';
 
 export async function signup(state, formData) {
 
-    await new Promise((resolve) => setTimeout(resolve, 3000))
 
     // 1. Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
@@ -29,14 +29,17 @@ export async function signup(state, formData) {
     // Hash the user's password before storing it
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    console.log('hashedPassword', hashedPassword)
-    console.log('name', name)
-    console.log('email', email)
+    await User.create({
+        name,
+        email,
+        password: hashedPassword,
+    }).then((user) => {
+        console.log('user', user)
+    }).catch((error) => {
+        console.log('error', error)
+    })
 
-
-
-
-    // If the form is valid, redirect to the confirmation page
+    // 3. Redirect to the confirmation page
     redirect('/confirmation')
 
     // Call the provider or db to create a user...
