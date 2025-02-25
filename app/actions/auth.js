@@ -48,8 +48,9 @@ export async function signup(state, formData) {
 
 
 let loginAttempts = 0;
+
 export async function login(state, formData) {
-    loginAttempts++ 
+    loginAttempts++
     console.log('Login Attempts: ', loginAttempts);
 
 
@@ -76,41 +77,39 @@ export async function login(state, formData) {
             return user
         }).catch((error) => {
             console.log('error', error)
-            console.log('email not found')
         })
 
-    // if (!user) {
-    //     return {
-    //         errors: {
-    //             email: 'User not found',
-    //         },
-    //     }
-    // }
+    if (!user) {
+        console.log('User not found')
+        return {
+            errors: {
+                email: 'User not found',
+            },
+        }
+    }
 
     // 3. Check if the password is correct
     const passwordMatch = await bcrypt.compare(password, user.password)
 
     if (!passwordMatch) {
-        // return {
-        //     errors: {
-        //         password: 'Incorrect password',
-        //     },
-        // }
         console.log('Incorrect Password')
-    }else{
+        return {
+            errors: {
+                password: 'Incorrect password',
+            },
+        }
+    } else {
         console.log('Password Matched')
     }
 
-
-    // 4. Redirect to the dashboard
-    return {
-        user: {
-            mssg: 'Logged in successfully',
-            email: user.email,
-            name: user.name,
-        }
-    }
+    // 4. Set the user's session
+    // state.session.set('user', user)
 
 
-    // redirect('/profile')
+
+
+    // Redirect to the dashboard
+    redirect('/dashboard')
+
+
 }
