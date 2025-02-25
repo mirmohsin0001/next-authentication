@@ -3,6 +3,7 @@
 import React from 'react'
 import { login } from '@/app/actions/auth'
 import { useActionState } from 'react'
+import Link from 'next/link'
 
 const page = () => {
     const [state, action, pending] = useActionState(login, undefined)
@@ -39,6 +40,7 @@ const page = () => {
                     >
                         {pending ? 'Logging In...' : 'Log In'}
                     </button>
+                    <p className="text-xs text-gray-500 mt-3" >Not a user? <Link href={'/'} className="text-indigo-500 cursor-pointer"> Sign Up</Link> </p>
                 </form>
             </div>
         </div>

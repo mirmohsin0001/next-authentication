@@ -3,6 +3,7 @@
 import React from "react";
 import { signup } from "./actions/auth";
 import { useActionState } from 'react'
+import Link from "next/link";
 
 export default function Home() {
   const [state, action, pending] = useActionState(signup, undefined)
@@ -43,6 +44,7 @@ export default function Home() {
           <button disabled={pending} type="submit" className="w-full bg-[#174e4f] text-white py-2 px-4 rounded-md hover:bg-[#123d3e] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#174e4f]">
             {pending ? 'Submitting...' : 'Sign Up'}
           </button>
+          <p className="text-xs text-gray-500 mt-3" >Already a user? <Link href={'/logIn'} className="text-indigo-500 cursor-pointer"> Log In</Link> </p>
         </form>
 
       </main>
