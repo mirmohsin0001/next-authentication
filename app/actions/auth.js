@@ -6,9 +6,11 @@ import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'
 import User from '../models/user';
 import { createSession, deleteSession } from '@/app/lib/session';
+import dbConnect from '../lib/dbConnect';
 
 export async function signup(state, formData) {
 
+    dbConnect()
 
     // 1. Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
@@ -48,7 +50,7 @@ export async function signup(state, formData) {
 }
 
 
-export async function logout(){
+export async function logout() {
     deleteSession()
     redirect('/logIn')
 }
@@ -60,6 +62,7 @@ export async function login(state, formData) {
     loginAttempts++
     console.log('Login Attempts: ', loginAttempts);
 
+    dbConnect()
 
     // 1. Validate form fields
     const validatedFields = LoginFormSchema.safeParse({
