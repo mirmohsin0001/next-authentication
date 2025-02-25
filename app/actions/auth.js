@@ -5,7 +5,7 @@ import { LoginFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'
 import User from '../models/user';
-import { createSession, deleteSession } from '@/app/lib/sessions';
+import { createSession, deleteSession } from '@/app/lib/session';
 
 export async function signup(state, formData) {
 
