@@ -19,10 +19,12 @@ export default function Home() {
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
             <input id="name" name="name" placeholder="Name" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />
           </div>
+          {state?.errors?.name && <p>{state.errors.name}</p>}
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input id="email" name="email" type="email" placeholder="Email" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />
           </div>
+          {state?.errors?.email && <p>{state.errors.email}</p>}
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input id="password" name="password" type="password" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm" />

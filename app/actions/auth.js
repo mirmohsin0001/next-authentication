@@ -1,6 +1,7 @@
 'use server'
 
 import { SignupFormSchema } from '@/app/lib/definitions'
+import { LoginFormSchema } from '@/app/lib/definitions'
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'
 import User from '../models/user';
@@ -43,4 +44,73 @@ export async function signup(state, formData) {
     redirect('/confirmation')
 
     // Call the provider or db to create a user...
+}
+
+
+let loginAttempts = 0;
+export async function login(state, formData) {
+    loginAttempts++ 
+    console.log('Login Attempts: ', loginAttempts);
+
+
+    // 1. Validate form fields
+    const validatedFields = LoginFormSchema.safeParse({
+        email: formData.get('email'),
+        password: formData.get('password'),
+    })
+
+    // If any form fields are invalid, return early
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    // 2. Check if the user exists in the database
+    const { email, password } = validatedFields.data
+
+    const user = await User
+        .findOne({ email })
+        .then((user) => {
+            console.log(user)
+            return user
+        }).catch((error) => {
+            console.log('error', error)
+            console.log('email not found')
+        })
+
+    // if (!user) {
+    //     return {
+    //         errors: {
+    //             email: 'User not found',
+    //         },
+    //     }
+    // }
+
+    // 3. Check if the password is correct
+    const passwordMatch = await bcrypt.compare(password, user.password)
+
+    if (!passwordMatch) {
+        // return {
+        //     errors: {
+        //         password: 'Incorrect password',
+        //     },
+        // }
+        console.log('Incorrect Password')
+    }else{
+        console.log('Password Matched')
+    }
+
+
+    // 4. Redirect to the dashboard
+    return {
+        user: {
+            mssg: 'Logged in successfully',
+            email: user.email,
+            name: user.name,
+        }
+    }
+
+
+    // redirect('/profile')
 }
